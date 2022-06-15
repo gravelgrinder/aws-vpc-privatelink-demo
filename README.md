@@ -71,7 +71,7 @@ terraform destroy
 * [SFDC Developer Blog: Using Private Connect to Securely Connect Salesforce and AWS](https://developer.salesforce.com/blogs/2020/10/using-private-connect-to-securely-connect-data-between-salesforce-and-aws)
 
 RDS Authentication
-* [How do I allow users to authenticate to an Amazon RDS MySQL DB instance using their IAM credentials?)](https://aws.amazon.com/premiumsupport/knowledge-center/users-connect-rds-iam/)
+* [How do I allow users to authenticate to an Amazon RDS MySQL DB instance using their IAM credentials?](https://aws.amazon.com/premiumsupport/knowledge-center/users-connect-rds-iam/)
 * [Use IAM authentication to connect with SQL Workbench/J to Amazon Aurora MySQL or Amazon RDS for MySQL](https://aws.amazon.com/blogs/database/use-iam-authentication-to-connect-with-sql-workbenchj-to-amazon-aurora-mysql-or-amazon-rds-for-mysql/)
 
 
