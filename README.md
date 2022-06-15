@@ -62,13 +62,25 @@ terraform destroy
 3. VPC Endpoint Policy
 
 ## Helpful Resources
+AWS PrivateLink
 * [Deep Dive on How to Establish Private Connectivity with AWS Private Link – AWS Online Tech Talks](https://www.youtube.com/watch?v=weN2sCKFquA)
 * [AWS re:Invent 2020: VPC endpoints & PrivateLink: Optimize for security, cost & operations](https://www.youtube.com/watch?v=LNf8jjBt72Y&list=PL2yQDdvlhXf-0zqlk2CIWszLXvyxL6sHi)
+* [AWS re:Invent 2018: Best Practices for AWS PrivateLink (NET301)](https://www.youtube.com/watch?v=85DbVGLXw3Y)
 * [AWS lowers data processing charges for AWS PrivateLink](https://aws.amazon.com/about-aws/whats-new/2021/07/aws-lowers-data-processing-charges-aws-privatelink/)
 * [Leverage AWS PrivateLink to Securely connect Amazon RDS from On-Premise](https://someshsrivastava1983.medium.com/leverage-aws-privatelink-to-securely-connect-amazon-rds-from-on-premise-9bf4bd3184b3)
 * [Control access to services using endpoint policies](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-access.html)
+* [AWS Blog: Hostname-as-Target for Network Load Balancers](https://aws.amazon.com/blogs/networking-and-content-delivery/hostname-as-target-for-network-load-balancers/)
+* [AWS Blog: Using AWS Lambda to enable static IP addresses for Application Load Balancers](https://aws.amazon.com/blogs/networking-and-content-delivery/using-aws-lambda-to-enable-static-ip-addresses-for-application-load-balancers/#:~:text=An%20IP%2Daddress%2Dbased%20target,create%20the%20resources%20for%20us)
+
+
+
+SalesForce
 * [SFDC: Secure Cross-Cloud Integrations with Private Connect](https://help.salesforce.com/s/articleView?id=sf.private_connect_overview.htm&type=5)
 * [SFDC Developer Blog: Using Private Connect to Securely Connect Salesforce and AWS](https://developer.salesforce.com/blogs/2020/10/using-private-connect-to-securely-connect-data-between-salesforce-and-aws)
+
+Amazon Redshift
+* [Announcing cross-VPC support for Amazon Redshift powered by AWS PrivateLink](https://aws.amazon.com/about-aws/whats-new/2021/04/announcing-cross-vpc-support-for-amazon-redshift-powered-by-aws-privatelink/)
+* [AWS Blog: Enable private access to Amazon Redshift from your client applications in another VPC](https://aws.amazon.com/blogs/big-data/enable-private-access-to-amazon-redshift-from-your-client-applications-in-another-vpc/)
 
 RDS Authentication
 * [How do I allow users to authenticate to an Amazon RDS MySQL DB instance using their IAM credentials?](https://aws.amazon.com/premiumsupport/knowledge-center/users-connect-rds-iam/)

@@ -7,8 +7,6 @@ resource "aws_security_group" "vpce" {
   description = "Security Group for the VPC endpoint. Created by Terraform"
   vpc_id      = var.main-vpcid
 
-
-
   tags = {
     Name = "tf_sg3_vpce"
   }  

@@ -35,16 +35,17 @@ resource "aws_security_group_rule" "allow_ingress_nlb" {
   security_group_id = aws_security_group.db_sg.id
 }
 
-resource "aws_security_group_rule" "allow_ingress_nlb_health_check" {
+resource "aws_security_group_rule" "allow_ingress_from_jump_server" {
   provider          = aws.cross-acct
   type              = "ingress"
-  description       = "Allow inbound health checks from the NLB."
-  from_port         = 80
-  to_port           = 80
+  description       = "Allow inbound connections from the jump server in the Public subnet."
+  from_port         = 3306
+  to_port           = 3306
   protocol          = "tcp"
-  cidr_blocks       = var.cross-private-subnet-cidr-blocks
+  source_security_group_id = aws_security_group.jump-server-sg.id
   security_group_id = aws_security_group.db_sg.id
 }
+
 
 resource "aws_security_group_rule" "allow_egress_nlb" {
   provider          = aws.cross-acct
@@ -70,14 +71,14 @@ resource "aws_db_instance" "mysqlrds" {
   storage_encrypted    = true
   storage_type         = "gp2"
   engine               = "mysql"
-  engine_version       = "5.7"
+  engine_version       = "8.0"
   instance_class       = "db.t3.xlarge"
   publicly_accessible  = false
   identifier           = "djl-database-1"
   db_name              = "djl"
   username             = "foo"
   password             = "foobarbaz"
-  parameter_group_name = "default.mysql5.7"
+  parameter_group_name = "default.mysql8.0"
   iam_database_authentication_enabled = "true"
   apply_immediately                   = "true"
   vpc_security_group_ids              = [aws_security_group.db_sg.id]
@@ -101,17 +102,17 @@ resource "aws_lb_target_group" "tg" {
   protocol    = "TCP"
   target_type = "ip"
   vpc_id      = var.cross-vpcid
-  health_check {
-    enabled = "true"
-    port = 80
-  }
+  #health_check {
+  #  enabled = "true"
+  #  port = 80
+  #}
 }
 
 resource "aws_lb_target_group_attachment" "tg_rds_target" {
   provider         = aws.cross-acct
   depends_on       = [aws_lb_target_group.tg]
   target_group_arn = aws_lb_target_group.tg.arn
-  target_id        = "10.1.50.152" ##TODO
+  target_id        = "10.1.50.173" ##TODO
   port             = 3306
 }
 
