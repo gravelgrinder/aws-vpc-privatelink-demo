@@ -4,6 +4,9 @@ Demonstration of how to access a Database across accounts using VPC Interface En
 ## Architecture
 ![alt text](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/architecture-diagram.png?raw=true)
 
+## High Level Enterprise Rollout
+![alt text](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/architecture-diagram-high-level.png?raw=true)
+
 ## Prerequisite
 1. Create a role to assume in the Destination (cross-acct) Account.  Use the `init/init.tf` script to create the role.
 2. Make sure the user of the `main-acct` has the proper IAM policy attached to assume the role in the `cross-acct` account.
@@ -71,8 +74,8 @@ AWS PrivateLink
 * [Control access to services using endpoint policies](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-access.html)
 * [AWS Blog: Hostname-as-Target for Network Load Balancers](https://aws.amazon.com/blogs/networking-and-content-delivery/hostname-as-target-for-network-load-balancers/)
 * [AWS Blog: Using AWS Lambda to enable static IP addresses for Application Load Balancers](https://aws.amazon.com/blogs/networking-and-content-delivery/using-aws-lambda-to-enable-static-ip-addresses-for-application-load-balancers/#:~:text=An%20IP%2Daddress%2Dbased%20target,create%20the%20resources%20for%20us)
-
-
+* [Quotas PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-limits-endpoints.html)
+* [Quotas for your NLB/ELB](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html)
 
 SalesForce
 * [SFDC: Secure Cross-Cloud Integrations with Private Connect](https://help.salesforce.com/s/articleView?id=sf.private_connect_overview.htm&type=5)
