@@ -1,3 +1,5 @@
+### Resources created to test out the NLB and RDS Instance.  These resources are not necessary once the POC is up and running.
+
 ###############################################################################
 ### djl-jump-server
 ###############################################################################

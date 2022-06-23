@@ -1,3 +1,4 @@
+### Provider Account Resources
 provider "aws" {
   alias   = "cross-acct"
   profile = "default"
@@ -14,7 +15,7 @@ provider "aws" {
 ### djl-database-1
 ###############################################################################
 resource "aws_security_group" "db_sg" {
-  provider   = aws.cross-acct
+  provider    = aws.cross-acct
   name        = "tf_db_sg"
   description = "Database Security Group created by Terraform"
   vpc_id      = var.cross-vpcid
@@ -78,7 +79,7 @@ resource "aws_db_instance" "mysqlrds" {
   db_name              = "djl"
   username             = "foo"
   password             = "foobarbaz"
-  parameter_group_name = "default.mysql8.0"
+  parameter_group_name = "djl-pg"
   iam_database_authentication_enabled = "true"
   apply_immediately                   = "true"
   vpc_security_group_ids              = [aws_security_group.db_sg.id]
@@ -102,17 +103,13 @@ resource "aws_lb_target_group" "tg" {
   protocol    = "TCP"
   target_type = "ip"
   vpc_id      = var.cross-vpcid
-  #health_check {
-  #  enabled = "true"
-  #  port = 80
-  #}
 }
 
 resource "aws_lb_target_group_attachment" "tg_rds_target" {
   provider         = aws.cross-acct
   depends_on       = [aws_lb_target_group.tg]
   target_group_arn = aws_lb_target_group.tg.arn
-  target_id        = "10.1.50.173" ##TODO
+  target_id        = "10.1.50.235" ##TODO - Change Me
   port             = 3306
 }
 

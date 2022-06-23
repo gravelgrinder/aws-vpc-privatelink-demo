@@ -12,7 +12,7 @@ Demonstration of how to access a Database across accounts using VPC Interface En
 2. Make sure the user of the `main-acct` has the proper IAM policy attached to assume the role in the `cross-acct` account.
 3. The `04-Misc-Resources.tf` script is not required.  It was used to provision resources to test the DB and NLB.  Remove it if you don't want to provision extra resources.
 
-## Steps
+## Setup Steps
 1. Run the following to Initialize the Terraform environment.
 
 ```
@@ -32,22 +32,72 @@ dig +short `terraform output --raw rds_address`
 
 4. Confirm the correct target IP in the NLB Target Group.  Set it to the values from step #3 above and then run `terraform apply` if it's different.
 
-5. Connect to the `djl-win-server` EC2 instance and confirm you __**can successfully**__ reach the database.  Your connection string should look like the one below.  You will have to replace the variable `vpce_dns_name` with the approprate VPC endpoint DNS name from the Terraform outputs.  __The connection should be successful.__
+## Verify DB Connection through VPC Endpoint
+5. Connect via RDP to the `djl-win-server` EC2 instance and confirm you __**can successfully**__ reach the database.  Your connection string should look like the one below.  You will have to replace the variable `vpce_dns_name` with the approprate VPC endpoint DNS name from the Terraform outputs.  __The connection should be successful.__
 ```
 mysql --host=${vpce_dns_name} --user=foo --password=foobarbaz djl
 ```
 
-6. Connect to the `djl-win-server2` EC2 instance and confirm you __**can successfully**__ reach the database.  Your connection string should look like the one below.  You will have to replace the variable `vpce_dns_name` with the approprate VPC endpoint DNS name from the Terraform outputs.  __The connection should be successful.__
+6. Connect via RDP to the `djl-win-server2` EC2 instance and confirm you __**can successfully**__ reach the database.  Your connection string should look like the one below.  You will have to replace the variable `vpce_dns_name` with the approprate VPC endpoint DNS name from the Terraform outputs.  __The connection should be successful.__
 ```
 mysql --host=${vpce_dns_name} --user=foo --password=foobarbaz djl
 ``` 
 
+## Revoke access to VPCE via Security Group
 7. Remove the Security Group reference for `tf_sg1` from the VPCE Security Group `tf_sg3_vpce`.  Remove it from the AWS Console or run the following...
 ```
 terraform destroy --target aws_security_group_rule.allow_db_ingress_for_ec2_sg1
 ```
 
-8. Connect to the `djl-win-server` EC2 instance again and this time confirm you are __**unable**__ to reach the database.  __**The connection should time out.**__
+8. Connect via RDP to the `djl-win-server` EC2 instance again and this time confirm you are __**unable**__ to reach the database.  __**The connection should time out.**__
+
+## Setup the IAM User in the RDS Database
+9. Create the `rds_iam_user` within your Database.  For this I created a schema specifically for the user, create the user then grant privs to the schema to the user.
+```
+CREATE SCHEMA `rds_iam_user` ;
+CREATE USER rds_iam_user IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
+GRANT ALL ON rds_iam_user.* TO 'rds_iam_user'@'%';            
+```
+
+## Test the IAM Authentication accross the VPC Endpoint
+9. Connect via RDP to the `djl-win-server2` EC2 instance.  
+
+10. Setup the necessary credentails for the IAM user that was provisioned per the terraform script (see the output `aws_iam_key_c` and `aws_iam_secret_c`.  IAM resources are provisioned in the `./05-RDS-IAM-Auth.tf` script.).  From the Windows instance, you can open up a Command Line or PowerShell terminal and run the `aws configure` command to setup the credentails.  Enter the credential information similar to what is displayed below.
+![Configure AWS IAM User Credentials](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/iam-configure-creds.png?raw=true)
+
+11. Add the role ARN to the AWS Configure file.  Replace the `{AWS_Account_number}` value with the actual AWS Account Number of the owning role.  Confirm the referencing of the `source_profile` attribute.  This depends on what profile you defined in step #10, if you didn't provide a profile then you can keep the value as `default`.
+```
+[profile rdscrossacct]
+role_arn = arn:aws:iam::{AWS_Account_Number}:role/tf_rds_iam_connect_role
+source_profile = default
+```
+
+12. Generate the IAM Auth Token to the RDS Instance.  Note you must use the __**hostname endpoint**__ and must reference the assumed role profile you setup in step #11 with the `--profile` flag.
+```
+aws rds generate-db-auth-token `
+    --hostname djl-database-1.crarldzwxu1i.us-east-1.rds.amazonaws.com `
+    --port 3306 `
+    --username rds_iam_user `
+    --region=us-east-1 `
+    --profile=rdscrossacct
+```
+
+13. Connect to the RDS instance via the IAM auth token provided in Step #12.  Replace the Host and Password parameter with your values.
+  1. Command Line
+```
+mysql --host=${vpce_dns_names} \
+      --port=3001 \
+      --user=rds_iam_user \
+      --password=${authToken} \
+      --ssl-ca=full_path_to_ssl_certificate \
+      --enable-cleartext-plugin 
+```
+  2. MySQL Workbench
+    * ![Enable Clear Text Auth](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/mysql-workbench-enable-cleartext-auth.png?raw=true)
+    * ![Success](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/mysql-workbench-enable-success.png?raw=true)
+
+
+
 
 ## Notes to Consider
 * Add notes here

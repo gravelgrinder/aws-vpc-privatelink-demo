@@ -1,9 +1,9 @@
+### Consumer Account Resources
 provider "aws" {
   alias   = "main-acct"
   profile = "default"
   region  = "us-east-1"
 }
-
 
 
 ###############################################################################

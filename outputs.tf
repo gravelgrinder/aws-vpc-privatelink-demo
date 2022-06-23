@@ -17,3 +17,10 @@ output "nlb_target_ip" { value = aws_lb_target_group_attachment.tg_rds_target.ta
 
 ### VPCE DNS Names
 output "vpce_dns_names" { value = aws_vpc_endpoint.vpce.dns_entry}
+
+#output "aws_iam_key" { value = aws_iam_access_key.rds_iam_user.id }
+#output "aws_iam_secret" {  value = nonsensitive(aws_iam_access_key.rds_iam_user.secret) }
+
+output "aws_iam_key_c" { value = aws_iam_access_key.rds_iam_user_c.id }
+output "aws_iam_secret_c" {  value = nonsensitive(aws_iam_access_key.rds_iam_user_c.secret) }
+
