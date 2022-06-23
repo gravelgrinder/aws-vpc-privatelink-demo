@@ -2,10 +2,10 @@
 Demonstration of how to access a Database across accounts using VPC Interface Endpoints (via PrivateLink)
 
 ## Architecture
-![alt text](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/architecture-diagram.png?raw=true)
+![alt text](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/architecture-diagram.png?raw=true)
 
 ## High Level Enterprise Rollout
-![alt text](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/architecture-diagram-high-level.png?raw=true)
+![alt text](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/architecture-diagram-high-level.png?raw=true)
 
 ## Prerequisite
 1. Create a role to assume in the Destination (cross-acct) Account.  Use the `init/init.tf` script to create the role.
