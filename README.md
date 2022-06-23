@@ -94,7 +94,7 @@ mysql --host=${vpce_dns_names} \
 ```
   2. MySQL Workbench
     * ![Enable Clear Text Auth](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/mysql-workbench-enable-cleartext-auth.png?raw=true)
-    * ![Success](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/mysql-workbench-enable-success.png?raw=true)
+    * ![Success](https://github.com/gravelgrinder/aws-vpc-privatelink-demo/blob/main/images/mysql-workbench-success.png?raw=true)
 
 
 
