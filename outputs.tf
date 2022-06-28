@@ -24,3 +24,5 @@ output "vpce_dns_names" { value = aws_vpc_endpoint.vpce.dns_entry}
 output "aws_iam_key_c" { value = aws_iam_access_key.rds_iam_user_c.id }
 output "aws_iam_secret_c" {  value = nonsensitive(aws_iam_access_key.rds_iam_user_c.secret) }
 
+output "rds_cross_account_role_arn" { value = aws_iam_role.rds_iam_role.arn }
+
