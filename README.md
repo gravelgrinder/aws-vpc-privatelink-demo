@@ -32,7 +32,7 @@ dig +short `terraform output --raw rds_address`
 
 4. Confirm the correct target IP in the NLB Target Group.  Set it to the values from step #3 above and then run `terraform apply` if it's different.
 
-## Verify DB Connection through VPC Endpoint
+### Verify DB Connection through VPC Endpoint
 5. Connect via RDP to the `djl-win-server` EC2 instance and confirm you __**can successfully**__ reach the database.  Your connection string should look like the one below.  You will have to replace the variable `vpce_dns_name` with the approprate VPC endpoint DNS name from the Terraform outputs.  __The connection should be successful.__
 ```
 mysql --host=${vpce_dns_name} --user=foo --password=foobarbaz djl
@@ -43,7 +43,7 @@ mysql --host=${vpce_dns_name} --user=foo --password=foobarbaz djl
 mysql --host=${vpce_dns_name} --user=foo --password=foobarbaz djl
 ``` 
 
-## Revoke access to VPCE via Security Group
+### Revoke access to VPCE via Security Group
 7. Remove the Security Group reference for `tf_sg1` from the VPCE Security Group `tf_sg3_vpce`.  Remove it from the AWS Console or run the following...
 ```
 terraform destroy --target aws_security_group_rule.allow_db_ingress_for_ec2_sg1
@@ -51,7 +51,7 @@ terraform destroy --target aws_security_group_rule.allow_db_ingress_for_ec2_sg1
 
 8. Connect via RDP to the `djl-win-server` EC2 instance again and this time confirm you are __**unable**__ to reach the database.  __**The connection should time out.**__
 
-## Setup the IAM User in the RDS Database
+### Setup the IAM User in the RDS Database
 9. Create the `rds_iam_user` within your Database.  For this I created a schema specifically for the user, create the user then grant privs to the schema to the user.
 ```
 CREATE SCHEMA `rds_iam_user` ;
@@ -59,7 +59,7 @@ CREATE USER rds_iam_user IDENTIFIED WITH AWSAuthenticationPlugin AS 'RDS';
 GRANT ALL ON rds_iam_user.* TO 'rds_iam_user'@'%';            
 ```
 
-## Test the IAM Authentication accross the VPC Endpoint
+### Test the IAM Authentication accross the VPC Endpoint
 9. Connect via RDP to the `djl-win-server2` EC2 instance.  
 
 10. Setup the necessary credentails for the IAM user that was provisioned per the terraform script (see the output `aws_iam_key_c` and `aws_iam_secret_c`.  IAM resources are provisioned in the `./05-RDS-IAM-Auth.tf` script.).  From the Windows instance, you can open up a Command Line or PowerShell terminal and run the `aws configure` command to setup the credentails.  Enter the credential information similar to what is displayed below.
