@@ -100,7 +100,8 @@ mysql --host=${vpce_dns_names} \
 
 
 ## Notes to Consider
-* Add notes here
+* AZ mapping between accounts --> [See Documentation](https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html#considerations-endpoint-services)
+* Run the following in each account before establishing the PrivateLink Service `aws ec2 describe-availability-zones --region "us-east-1"  | jq '.AvailabilityZones[] | [ .ZoneName, .ZoneId ] | @csv'`
 
 ## Clean up Resources
 1. To delete the resources created from the terraform script run the following.  You will need to do this in the base directory then in the `./init` directory.
