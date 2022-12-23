@@ -42,9 +42,19 @@ resource "aws_security_group_rule" "allow_egress1" {
   security_group_id = aws_security_group.ec2_sg1.id
 }
 
+# Get latest Windows Server 2019 AMI
+data "aws_ami" "windows-2019" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["Windows_Server-2019-English-Full-Base*"]
+  }
+}
+
 resource "aws_instance" "djl-win-server" {
   provider                    = aws.main-acct
-  ami                         = "ami-0e2c8caa770b20b08" # us-east-1
+  ami                         = "${data.aws_ami.windows-2019.id}" # us-east-1
   instance_type               = "t3.large"
   subnet_id                   = var.main-ec2-subnet-id
   #availability_zone          = "us-east-1"
@@ -98,7 +108,7 @@ resource "aws_security_group_rule" "allow_egress2" {
 
 resource "aws_instance" "djl-win-server2" {
   provider                    = aws.main-acct
-  ami                         = "ami-0e2c8caa770b20b08" # us-east-1
+  ami                         = "${data.aws_ami.windows-2019.id}" # us-east-1
   instance_type               = "t3.large"
   subnet_id                   = var.main-ec2-subnet-id
   #availability_zone          = "us-east-1"

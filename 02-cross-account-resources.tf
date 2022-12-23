@@ -62,7 +62,7 @@ resource "aws_security_group_rule" "allow_egress_nlb" {
 resource "aws_db_subnet_group" "db_subnet_group" {
   provider   = aws.cross-acct
   name       = "tf_db_group"
-  subnet_ids = var.cross-private-subnet-ids
+  subnet_ids = var.cross-private-subnet-ids-ALL
 }
 
 resource "aws_db_instance" "mysqlrds" {
@@ -118,7 +118,7 @@ resource "aws_lb" "nlb" {
   name               = "tf-nlb"
   internal           = true
   load_balancer_type = "network"
-  subnets            = var.cross-private-subnet-ids
+  subnets            = var.cross-private-subnet-ids-ALL
 
   enable_deletion_protection = false
 

@@ -38,7 +38,7 @@ resource "aws_security_group_rule" "js_egress" {
 
 resource "aws_instance" "djl-jump-server" {
   provider                    = aws.cross-acct
-  ami                         = "ami-0e2c8caa770b20b08" # us-east-1
+  ami                         = "${data.aws_ami.windows-2019.id}" # us-east-1
   instance_type               = "t3.large"
   subnet_id                   = var.cross-ec2-public-subnet-id
   #availability_zone          = "us-east-1"

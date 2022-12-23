@@ -45,6 +45,12 @@ variable "cross-private-subnet-ids" {
   default     = ["subnet-010ccca2dc4727c3e", "subnet-0f205c928aca09ba7"]
 }
 
+variable "cross-private-subnet-ids-ALL" {
+  description = "Private Subnets in the Cross account VPC."
+  type        = list(string)
+  default     = ["subnet-010ccca2dc4727c3e", "subnet-0f205c928aca09ba7", "subnet-02ed5741ce937d476"]
+}
+
 variable "cross-private-subnet-cidr-blocks" {
   description = "Private Subnet CIDR blocks in the Cross account VPC."
   type        = list(string)
